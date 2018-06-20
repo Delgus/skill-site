@@ -38,15 +38,14 @@ $this->title = 'Авторизация';
 
                         <?= (isset(Yii::$app->user->enableAutoLogin) && Yii::$app->user->enableAutoLogin) ? $form->field($model, 'rememberMe')->checkbox(['value' => true]) : '' ?>
 
-                        <?= Html::submitButton(
-                            UserManagementModule::t('front', 'Login'),
+                        <?= Html::submitButton('Войти',
                             ['class' => 'btn btn-lg btn-primary btn-block']
                         ) ?>
 
                         <div class="row registration-block">
 
                             <div class="col-md-offset-4 col-md-6 text-right">
-                                <?=Html::a(
+                                <?= Html::a(
                                     UserManagementModule::t('front', "Forgot password ?"),
                                     ['/user/auth/password-recovery']
                                 ) ?>

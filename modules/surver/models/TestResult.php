@@ -2,6 +2,7 @@
 
 namespace app\modules\surver\models;
 
+use app\modules\user\models\User;
 use Yii;
 use yii\db\ActiveRecord;
 use yii\db\Query;
@@ -20,7 +21,13 @@ use yii\helpers\ArrayHelper;
  */
 class TestResult extends ActiveRecord
 {
+    /** Название теста
+     * @var $test_name
+     */
     public $test_name;
+    /** Вопросы
+     * @var $test_name
+     */
     public $questions;
 
     /**
@@ -62,6 +69,7 @@ class TestResult extends ActiveRecord
      */
     public function getUsername($id)
     {
+        /** @var User $userClass */
         $userClass = Yii::$app->user->identityClass;
         $user = $userClass::findOne($id);
         return $user->username;

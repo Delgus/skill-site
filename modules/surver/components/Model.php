@@ -27,14 +27,14 @@ class Model extends \yii\base\Model
         $loadModels = [];
         foreach ($data as $i => $one) {
             if (!isset($one['id']) || $one['id'] === '') {
-                //создаем новую модель
+                /**  создаем новую модель */
                 $class = get_class($first);
                 $model = new $class;
                 $model->load($one, '');
                 $loadModels[$i] = $model;
                 $success = true;
             } else {
-                //загружаем существующую
+                /**  загружаем существующую */
                 $key = array_search($one['id'], array_combine(array_keys($models), array_column($models, 'id')));
                 $model = $models[$key];
                 $model->load($one, '');
@@ -45,7 +45,7 @@ class Model extends \yii\base\Model
 
             }
         }
-        //Если массив моделей не пуст,помечаем эти модели как удаленные
+        /** Если массив моделей не пуст,помечаем эти модели как удаленные */
         if (!empty($models)) {
             foreach ($models as $i => $model) {
                 $deleteIds[] = $model->id;

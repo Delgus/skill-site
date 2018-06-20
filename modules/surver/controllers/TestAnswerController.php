@@ -24,7 +24,7 @@ class TestAnswerController extends Controller
     {
         return [
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class' => VerbFilter::class,
                 'actions' => [
                     'delete' => ['POST'],
                 ],
@@ -113,7 +113,7 @@ class TestAnswerController extends Controller
         $return = $model->test_question_id;
         $model->delete();
 
-        return $this->redirect(['index','id' => $return]);
+        return $this->redirect(['index', 'id' => $return]);
     }
 
     /**

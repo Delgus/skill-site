@@ -33,6 +33,9 @@ use yii\behaviors\BlameableBehavior;
  *
  * @property $answers
  * @see TestQuestion::getAnswers()
+ *
+ * @property $types
+ * @see TestQuestion::getTypes()
  */
 class TestQuestion extends ActiveRecord
 {
@@ -53,11 +56,11 @@ class TestQuestion extends ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'description','type','points'], 'required'],
+            [['name', 'description', 'type', 'points'], 'required'],
             [['description'], 'string'],
             [['created_at', 'created_by', 'updated_at', 'updated_by', 'test_id'], 'integer'],
             [['name'], 'string', 'max' => 255],
-            [['test_id'],'safe']
+            [['test_id'], 'safe']
         ];
     }
 
@@ -127,14 +130,24 @@ class TestQuestion extends ActiveRecord
         return $this->hasMany(TestAnswer::class, ['test_question_id' => 'id']);
     }
 
-    public function getTypes(){
+    /**
+     * Типы вопросов
+     * @return array
+     */
+    public function getTypes()
+    {
         return [
             self::TYPE_CHECKBOX => 'Множественный выбор',
             self::TYPE_RADIOLIST => 'Одиночный выбор'
         ];
     }
 
-    public function getTypeName(){
+    /**
+     * Название типа вопроса
+     * @return mixed
+     */
+    public function getTypeName()
+    {
         $types = $this->types;
         return $types[$this->type];
     }

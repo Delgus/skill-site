@@ -1,18 +1,30 @@
 <?php
 
-use yii\helpers\Url;
-
 class HomeCest
 {
-    public function ensureThatHomePageWorks(AcceptanceTester $I)
+    public function _before(AcceptanceTester $I)
     {
-        $I->amOnPage(Url::toRoute('/site/index'));        
-        $I->see('My Company');
-        
-        $I->seeLink('About');
-        $I->click('About');
-        $I->wait(2); // wait for page to be opened
-        
-        $I->see('This is the About page.');
+        $I->amOnPage('/site/index');
+    }
+
+    public function contentOnHomePage(AcceptanceTester $I)
+    {
+
+        $I->seeInTitle('Прокачайся!!!');
+        $I->seeLink('Перейти к блогу');
+        $I->seeLink('Приступить к тестам');
+
+    }
+
+    public function blogButton(AcceptanceTester $I)
+    {
+        $I->click('Перейти к блогу');
+        $I->seeInTitle('Блог');
+    }
+
+    public function blogTest(AcceptanceTester $I)
+    {
+        $I->click('Приступить к тестам');
+        $I->seeInTitle('Авторизация');
     }
 }

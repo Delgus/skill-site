@@ -127,6 +127,7 @@ class Test extends ActiveRecord
     }
 
     /**
+     * Название статуса
      * @return mixed
      */
     public function getStatusName()
@@ -136,6 +137,7 @@ class Test extends ActiveRecord
     }
 
     /**
+     * Список статусов
      * @return array
      */
     public function getStatusList()
@@ -157,18 +159,19 @@ class Test extends ActiveRecord
     /**
      * @return bool
      */
-    public function chainDelete(){
+    public function chainDelete()
+    {
         if (!empty($this->_delete_answers)) {
             foreach ($this->_delete_answers as $arrayId) {
                 if (!empty($arrayId)) {
-                    if(TestAnswer::deleteAll(['id' => $arrayId])){
-                    return false;
+                    if (TestAnswer::deleteAll(['id' => $arrayId])) {
+                        return false;
                     }
                 }
             }
         }
         if (!empty($this->_delete_questions)) {
-            if(TestQuestion::deleteAll(['id' => $this->_delete_questions])){
+            if (TestQuestion::deleteAll(['id' => $this->_delete_questions])) {
                 return false;
             }
         }
@@ -181,18 +184,20 @@ class Test extends ActiveRecord
      */
     public function chainSave($runValidation = false)
     {
-        if(!$this->save($runValidation)){
+        if (!$this->save($runValidation)) {
             return false;
         }
+        /** @var TestAnswer $answer */
         $answers = $this->_answers;
         foreach ($this->_questions as $i => $question) {
+            /** @var TestQuestion $question */
             $question->test_id = $this->id;
-            if(!$question->save($runValidation)){
+            if (!$question->save($runValidation)) {
                 return false;
             }
             foreach ($answers[$i] as $answer) {
                 $answer->test_question_id = $question->id;
-                if(!$answer->save($runValidation)){
+                if (!$answer->save($runValidation)) {
                     return false;
                 };
             }
@@ -207,25 +212,25 @@ class Test extends ActiveRecord
     public function chainLoad($post)
     {
         $loadMain = $this->load($post);
-     
-        if(isset($post['TestQuestion'])){
-            $questions = $this->questions ?:[new TestQuestion];
+
+        if (isset($post['TestQuestion'])) {
+            $questions = $this->questions ?: [new TestQuestion];
             $deleteIDs = [];
-            $loadQuestions = Model::multiLoad($questions,$deleteIDs, $post['TestQuestion']);
+            $loadQuestions = Model::multiLoad($questions, $deleteIDs, $post['TestQuestion']);
             $this->_questions = $questions;
             $this->_delete_questions = $deleteIDs;
         }
 
 
-        if(isset($post['TestAnswer'])){
+        if (isset($post['TestAnswer'])) {
             $answers = [];
             $deleteIDs = [];
             $loadAnswers = true;
             foreach ($this->_questions as $i => $question) {
-            $delIDforOne = [];
-            $answers[$i] = $question->answers ?:[new TestAnswer];
-            $loadAnswers = $loadAnswers && Model::multiLoad($answers[$i],$delIDforOne,$post['TestAnswer'][$i]);
-            $deleteIDs[$i] = $delIDforOne;
+                $delIDforOne = [];
+                $answers[$i] = $question->answers ?: [new TestAnswer];
+                $loadAnswers = $loadAnswers && Model::multiLoad($answers[$i], $delIDforOne, $post['TestAnswer'][$i]);
+                $deleteIDs[$i] = $delIDforOne;
             }
             $this->_answers = $answers;
             $this->_delete_answers = $deleteIDs;
