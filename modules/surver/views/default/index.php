@@ -40,7 +40,7 @@ $this->title = 'Тесты';
             </tr>
             </thead>
             <tbody>
-            <?php foreach($top10 as $one): ?>
+            <?php foreach($top10 as $i => $one): ?>
                 <tr>
                     <th scope="row"><?= $i + 1 ?></th>
                     <td><?= $one->getUsername($one->user_id) ?></td>
