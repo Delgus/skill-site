@@ -4,7 +4,7 @@
 
 1.Склонировать с репозитория
 ~~~
-git clone https://github.com/Delgus/my-site.git . 
+git clone https://github.com/Delgus/skill-site.git . 
 ~~~
 2.Установить зависимости
 ~~~
