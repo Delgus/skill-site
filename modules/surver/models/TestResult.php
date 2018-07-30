@@ -108,7 +108,7 @@ class TestResult extends ActiveRecord
      */
     public static function top10($params)
     {
-        if ($params["TestSearch"]['category']) {
+        if (isset($params["TestSearch"]) && $params["TestSearch"]['category']) {
             $category_id = TestCategory::find()
                 ->select('id')
                 ->where(['name' => $params["TestSearch"]['category']])
